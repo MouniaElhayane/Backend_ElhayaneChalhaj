@@ -2,13 +2,14 @@ let express = require('express');
 let app = express();
 let bodyParser = require('body-parser');
 let assignment = require('./routes/assignments');
+let login = require('./routes/login');
+let matier = require('./routes/matier');
 
 let mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 //mongoose.set('debug', true);
-
 // remplacer toute cette chaine par l'URI de connexion à votre propre base dans le cloud s
-const uri = 'mongodb+srv://mb:toto@cluster0.xtr0u.mongodb.net/assignments?retryWrites=true&w=majority';
+const uri = 'mongodb+srv://elmounia413:kujUqJHZgldNEUig@cluster0.tze3zct.mongodb.net/assignments?retryWrites=true&w=majority';
 const options = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -50,6 +51,10 @@ app.route(prefix + '/assignments')
 app.route(prefix + '/assignments/:id')
   .get(assignment.getAssignment)
   .delete(assignment.deleteAssignment);
+app.route(prefix + '/matieres')
+  .get(matier.getMatier)
+app.route(prefix + '/login')
+  .post(login.login)
 
 
 // On démarre le serveur

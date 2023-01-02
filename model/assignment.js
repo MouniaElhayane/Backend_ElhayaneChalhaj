@@ -6,6 +6,10 @@ let Schema = mongoose.Schema;
 let AssignmentSchema = Schema({
     id: Number,
     dateDeRendu: Date,
+    auteur:String,
+    matier:String,
+    note:Number,
+    remarque:String,
     nom: String,
     rendu: Boolean
 });

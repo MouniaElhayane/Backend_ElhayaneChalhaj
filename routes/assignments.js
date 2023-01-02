@@ -3,12 +3,17 @@ let Assignment = require('../model/assignment');
 // Récupérer tous les assignments (GET)
 
 function getAssignments(req, res) {
- var aggregateQuery = Assignment.aggregate();
- 
+    let filter = JSON.parse(req.query.filter)
+    let rendu = filter.rendu == undefined ? {} : {rendu:filter.rendu}
+    let nom  = filter.nom == undefined ? {} : { nom: new RegExp('.*' + filter.nom + '.*') }
+ var aggregateQuery = Assignment.aggregate([{ $match: { ...rendu  , ...nom} }]);
+ console.log(filter ,aggregateQuery);
  Assignment.aggregatePaginate(aggregateQuery,
    {
      page: parseInt(req.query.page) || 1,
      limit: parseInt(req.query.limit) || 10,
+     
+     
    },
    (err, assignments) => {
      if (err) {
@@ -47,6 +52,10 @@ function postAssignment(req, res){
     assignment.nom = req.body.nom;
     assignment.dateDeRendu = req.body.dateDeRendu;
     assignment.rendu = req.body.rendu;
+    assignment.matier = req.body.matier;
+    assignment.note = req.body.note;
+    assignment.remarque = req.body.remarque;
+    assignment.auteur = req.body.auteur;
 
     console.log("POST assignment reçu :");
     console.log(assignment)
